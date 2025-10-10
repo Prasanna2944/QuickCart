@@ -1,6 +1,6 @@
 import { inngest } from "@/config/inngest";
 import Product from "@/models/Product";
-import User from "@/models/user";
+import User from "@/models/User";
 import Order from "@/models/Order"; 
 import Address from "@/models/Address"; // Added for explicit model registration
 import { getAuth } from "@clerk/nextjs/server";

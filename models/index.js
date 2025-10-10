@@ -4,5 +4,5 @@
 import './Address';
 import './Order';
 import './Product';
-import './user'; 
+import './User'; 
 // Assuming your files are Address.js, Order.js, Product.js, and User.js
