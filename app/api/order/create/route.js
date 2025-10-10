@@ -2,6 +2,7 @@ import { inngest } from "@/config/inngest";
 import Product from "@/models/Product";
 import User from "@/models/user";
 import Order from "@/models/Order"; // Added import for Order model
+import Address from "@/models/Address"; 
 import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import connectDB from "@/config/db";
