@@ -1,7 +1,10 @@
 import { inngest } from "@/config/inngest";
 import Product from "@/models/Product";
-import User from "@/models/user";
-import { getAuth, User } from "@clerk/nextjs/server";
+import User from "@/models/user"; // <-- Your MongoDB User model
+import { getAuth } from "@clerk/nextjs/server"; // <-- CORRECTED: Removed duplicate 'User'
+// If you need Clerk's User utility for another purpose, rename it like this:
+// import { getAuth, User as ClerkUser } from "@clerk/nextjs/server"; 
+
 import { NextResponse } from "next/server";
 
 
@@ -19,8 +22,10 @@ export async function POST(request) {
         // calculate amount using items
         const amount = await items.reduce(async (acc, item) => {
             const product = await Product.findById(item.productId);
-            return acc + product.offerPrice * item.quantity;
-        }, 0);
+            // Wait for the accumulator promise to resolve before adding
+            const currentAcc = await acc;
+            return currentAcc + product.offerPrice * item.quantity;
+        }, Promise.resolve(0)); // Initialize accumulator with a resolved promise of 0
 
         await inngest.send({
             name: 'order/created',
