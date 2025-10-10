@@ -9,9 +9,7 @@ import connectDB from "@/lib/db";
 export async function POST(request) {
     try {
         
-        // Removed connectDB() call as it should ideally be run once globally, 
-        // but if required, uncomment it here.
-        // await connectDB(); 
+        await connectDB()
 
         const { userId } = getAuth(request);
         const { address, items } = await request.json();
