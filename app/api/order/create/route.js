@@ -4,7 +4,7 @@ import User from "@/models/user";
 import Order from "@/models/Order"; // Added import for Order model
 import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { connectDB } from "@/lib/db"; 
+import connectDB from "@/lib/db";
 
 export async function POST(request) {
     try {
