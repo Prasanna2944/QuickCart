@@ -117,16 +117,22 @@ export const AppContextProvider = (props) => {
         return totalCount;
     }
 
-    const getCartAmount = () => {
-        let totalAmount = 0;
-        for (const items in cartItems) {
-            let itemInfo = products.find((product) => product._id === items);
-            if (cartItems[items] > 0) {
-                totalAmount += itemInfo.offerPrice * cartItems[items];
-            }
-        }
-        return Math.floor(totalAmount * 100) / 100;
-    }
+    //  START OF THE FIX: Re-define getCartAmount as a function
+  const getCartAmount = () => {
+    let totalAmount = 0;
+        // The loop is now safely inside the function
+     for (const items in cartItems) {
+     let itemInfo = products.find((product) => product._id === items);
+ 
+     // Keep the safety check we added previously
+     if (itemInfo && itemInfo.offerPrice && cartItems[items] > 0) { 
+        totalAmount += itemInfo.offerPrice * cartItems[items];
+     }
+ }
+        // The return statement is now safely inside the function
+     return Math.floor(totalAmount * 100) / 100;
+ }
+    //  END OF THE FIX
 
     useEffect(() => {
         fetchProductData()
