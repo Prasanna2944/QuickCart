@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 
 const OrderSummary = () => {
 
-  const { currency, router, getCartCount, getCartAmount, getToken, user, cartItems, setCaItems } = useAppContext()
+  const { currency, router, getCartCount, getCartAmount, getToken, user, cartItems, setCartItems } = useAppContext()
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -43,7 +43,7 @@ const OrderSummary = () => {
         return toast.error("Please select an address");
       }
 
-      let cartItemsArray = Object.keys(cartItems).map((key) => ({product:key, quantity:cartItems[key]}))
+      let cartItemsArray = Object.keys(cartItems).map((key) => ({productId:key, quantity:cartItems[key]}))
       cartItemsArray = cartItemsArray.filter(item => item.quantity > 0);
 
       if (cartItemsArray.length === 0) {
@@ -61,7 +61,7 @@ const OrderSummary = () => {
 
       if (data.success) {
         toast.success(data.message);
-        setCaItems({});
+        setCartItems({});
         router.push('/order-placed');
       }else{
         toast.error(data.message);
