@@ -1,8 +1,8 @@
 import { inngest } from "@/config/inngest";
 import Product from "@/models/Product";
 import User from "@/models/user";
-import Order from "@/models/Order"; // Added import for Order model
-import Address from "@/models/Address"; 
+import Order from "@/models/Order"; 
+import Address from "@/models/Address"; // Added for explicit model registration
 import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import connectDB from "@/config/db";
@@ -23,26 +23,22 @@ export async function POST(request) {
         const totalAmount = await items.reduce(async (acc, item) => {
             const product = await Product.findById(item.productId);
             
-            // FIX: Check if the product exists before accessing properties
             if (!product) {
-                // Throw an error to stop the transaction if a product is missing/invalid
                 throw new Error(`Product not found for ID: ${item.productId}.`);
             }
             
-            // Wait for the accumulator promise to resolve before adding
             const currentAcc = await acc;
             return currentAcc + product.offerPrice * item.quantity;
-        }, Promise.resolve(0)); // Initialize accumulator with a resolved promise of 0
+        }, Promise.resolve(0)); 
 
         const finalAmount = totalAmount + Math.floor(totalAmount * 0.02);
         
-        //  NEW: CREATE AND SAVE THE ORDER DOCUMENT TO MONGODB
+        // CREATE AND SAVE THE ORDER DOCUMENT TO MONGODB
         const newOrder = new Order({
             userId: userId,
             address: address, 
             items: items,
             amount: finalAmount,
-            // status will default to 'Order Placed' as defined in Order model
         });
 
         await newOrder.save();
@@ -55,12 +51,10 @@ export async function POST(request) {
                 address,
                 items,
                 amount: finalAmount,
-                // Removed the date field, as the Mongoose model now uses timestamps
             }
         })
 
         // Clear User cart
-
         const user = await User.findById(userId);
         user.cartItems = {};
         await user.save();

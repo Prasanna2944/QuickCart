@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 
+// 🛑 FIX: Import the model index file to guarantee all schemas are registered
+import "@/models/index"; 
+
 let cached = global.mongoose
 
 if (!cached) {
@@ -19,11 +22,10 @@ async function connectDB(){
         cached.promise = mongoose.connect(`${process.env.MONGODB_URI}/quickcart`, opts).then(mongoose => {
             return mongoose;
         })
-}
+    }
 
     cached.conn = await cached.promise;
     return cached.conn;
-
 }
 
 export default connectDB;
