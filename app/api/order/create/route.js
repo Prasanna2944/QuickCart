@@ -1,11 +1,11 @@
-
+//Continuously error making file
 import { inngest } from "@/config/inngest";
 import connectDB from "@/config/db";
 import Product from "@/models/Product";
-import User from "@/models/User"; // ⬅️ FIX 1: Corrected import path casing
+import User from "@/models/User"; // Should be capitalized and correct
 import Order from "@/models/Order";
 import Address from "@/models/Address";
-import { getAuth } from "@clerk/nextjs/server"; // ⬅️ FIX 2: Removed conflicting 'User'
+import { getAuth } from "@clerk/nextjs/server"; // ⬅️ MUST NOT include "User"
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
