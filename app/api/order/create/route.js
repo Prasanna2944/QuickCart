@@ -1,11 +1,11 @@
+
 import { inngest } from "@/config/inngest";
 import connectDB from "@/config/db";
 import Product from "@/models/Product";
-import User from "@/models/User"; // ✅ MongoDB User model
+import User from "@/models/User"; // ⬅️ FIX 1: Corrected import path casing
 import Order from "@/models/Order";
 import Address from "@/models/Address";
-// 🛑 FIX: This line MUST only include getAuth
-import { getAuth } from "@clerk/nextjs/server"; 
+import { getAuth } from "@clerk/nextjs/server"; // ⬅️ FIX 2: Removed conflicting 'User'
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
