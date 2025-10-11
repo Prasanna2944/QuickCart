@@ -18,13 +18,15 @@ const MyOrders = () => {
 
     const fetchOrders = async () => {
         try {
-           
+            
             const token = await getToken();
 
+            // Should call the correct list endpoint
             const {data} = await axios.get('/api/order/list', {headers: {Authorization: `Bearer ${token}`}});
 
             if (data.success) {
-                setOrders(data.orders.reverse());
+                // Ensure data.orders is an array before calling reverse()
+                setOrders(Array.isArray(data.orders) ? data.orders.reverse() : []);
                 setLoading(false);
             }else{
                 toast.error(data.message);
@@ -60,7 +62,8 @@ const MyOrders = () => {
                                     />
                                     <p className="flex flex-col gap-3">
                                         <span className="font-medium text-base">
-                                            {order.items.map((item) => item.product.name + ` x ${item.quantity}`).join(", ")}
+                                            {/* 🛑 FIX 1: Use item.productId.name */}
+                                            {order.items.map((item) => item.productId.name + ` x ${item.quantity}`).join(", ")}
                                         </span>
                                         <span>Items : {order.items.length}</span>
                                     </p>
@@ -80,7 +83,8 @@ const MyOrders = () => {
                                 <div>
                                     <p className="flex flex-col">
                                         <span>Method : COD</span>
-                                        <span>Date : {new Date(order.date).toLocaleDateString()}</span>
+                                        {/* 🛑 FIX 2: Use order.createdAt */}
+                                        <span>Date : {new Date(order.createdAt).toLocaleDateString()}</span>
                                         <span>Payment : Pending</span>
                                     </p>
                                 </div>
