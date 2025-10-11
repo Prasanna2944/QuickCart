@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 
 // 🛑 FIX: Import the model index file to guarantee all schemas are registered
-import "../models/Index.js";
+import '@/models/Index.js';
+
 
 let cached = global.mongoose
 
