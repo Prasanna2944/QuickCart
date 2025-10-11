@@ -37,9 +37,9 @@ const Orders = () => {
 
     useEffect(() => {
         if (user) {
-             fetchSellerOrders();
+              fetchSellerOrders();
         }
-       
+        
     }, [user]);
 
     return (
@@ -57,7 +57,10 @@ const Orders = () => {
                                 />
                                 <p className="flex flex-col gap-3">
                                     <span className="font-medium">
-                                        {order.items.map((item) => item.product.name + ` x ${item.quantity}`).join(", ")}
+                                        {/* 🛑 RECTIFIED LINE: Added optional chaining (?.) and a fallback */}
+                                        {order.items.map((item) => 
+                                            (item.product?.name || 'Product Missing') + ` x ${item.quantity}`
+                                        ).join(", ")}
                                     </span>
                                     <span>Items : {order.items.length}</span>
                                 </p>
